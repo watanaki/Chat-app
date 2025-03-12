@@ -32,12 +32,5 @@ const ConvexClientProvider = ({ children }: Props) => {
     </ClerkProvider>
   );
 };
-/*
-        
-        <Unauthenticated>
-          <SignIn />
-        </Unauthenticated>
-*/
-
 
 export default ConvexClientProvider;
