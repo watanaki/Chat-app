@@ -1,6 +1,8 @@
 "use client"
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { ModeToggle } from '@/components/ui/theme/theme-toggle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useNavigation } from '@/hooks/useNavigation'
 import { UserButton } from '@clerk/nextjs';
@@ -21,9 +23,12 @@ const MobileNav = () => {
                   <Link href={path.href}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Button size="icon" variant={path.active ? "default" : "outline"}>
-                          {path.icon}
-                        </Button>
+                        <div>
+                          <Button size="icon" variant={path.active ? "default" : "outline"}>
+                            {path.icon}
+                          </Button>
+                          {path.count ? <Badge className='absolute left-6 bottom-7 px-2'>{path.count}</Badge> : null}
+                        </div>
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>{path.name}</p>
@@ -34,6 +39,7 @@ const MobileNav = () => {
               );
             })
           }
+          <ModeToggle />
           <li>
             <UserButton />
           </li>

@@ -1,4 +1,5 @@
 "use client"
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ModeToggle } from '@/components/ui/theme/theme-toggle';
@@ -12,7 +13,7 @@ const DesktopNav = () => {
   const paths = useNavigation();
   return (
     <Card className='hidden lg:flex lg:flex-col lg:justify-between 
-  lg:items-center lg:h-full lg:w-16 lg:px-2 lg:py-4'
+  lg:items-center  lg:w-16 lg:px-2 lg:py-4'
     >
       <nav>
         <ul className='flex flex-col items-center gap-4'>{
@@ -22,9 +23,12 @@ const DesktopNav = () => {
                 <Link href={path.href}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button size="icon" variant={path.active ? "default" : "outline"}>
-                        {path.icon}
-                      </Button>
+                      <div>
+                        <Button size="icon" variant={path.active ? "default" : "outline"}>
+                          {path.icon}
+                        </Button>
+                        {path.count ? <Badge className='absolute left-6 bottom-7 px-2'>{path.count}</Badge> : null}
+                      </div>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>{path.name}</p>

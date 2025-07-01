@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internalMutation, internalQuery } from "./_generated/server";
 
 export const create = internalMutation({
@@ -12,6 +12,21 @@ export const create = internalMutation({
     await ctx.db.insert("users", args);
   }
 });
+
+export const update = internalMutation({
+  args: {
+    id: v.id("users"),
+    newData: v.object({
+      email: v.optional(v.string()),
+      username: v.optional(v.string()),
+      imageUrl: v.optional(v.string())
+    })
+  },
+  handler: async (ctx, args) => {
+    const { id, newData } = args;
+    await ctx.db.patch(id, newData);
+  }
+})
 
 export const get = internalQuery({
   args: { clerkId: v.string() },
