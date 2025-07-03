@@ -1,9 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
+// import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -13,20 +13,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { } from '@radix-ui/react-alert-dialog';
 import { useQuery } from 'convex/react';
 import { ConvexError } from 'convex/values';
-import { CirclePlusIcon, Flag, X } from 'lucide-react';
+import { CirclePlusIcon, X } from 'lucide-react';
 import React, { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod'
-
-type Props = {}
 
 const createGroupFormSchema = z.object({
   name: z.string().min(1, { message: "This field can not be empty" }),
   members: z.string().array().min(1, { message: "You must select at least one friend" })
 });
 
-const CreateGroupDialog = (props: Props) => {
+const CreateGroupDialog = () => {
   const [selectAll, setSelect] = useState(false);
   const friends = useQuery(api.friends.get);
   const { mutate: createGroup, pending } = useMutationState(api.conversation.createGroup);

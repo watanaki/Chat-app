@@ -1,9 +1,7 @@
 import ConversationFallback from '@/components/shared/conversations/ConversationFallback';
 import React from 'react'
 
-type Props = {}
-
-const ConversationPage = (props: Props) => {
+const ConversationPage = () => {
   return (
     <ConversationFallback />
   )

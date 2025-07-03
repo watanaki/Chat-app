@@ -8,25 +8,22 @@ import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Loader2 } from 'lucide-react';
 import Request from './_components/Request';
-import { Button } from '@/components/ui/button';
-import { useMutationState } from '@/hooks/useMutationState';
+// import { useMutationState } from '@/hooks/useMutationState';
 
-type Props = {}
-
-const FriendsPage = (props: Props) => {
+const FriendsPage = () => {
 
   const requests = useQuery(api.requests.get);
 
-  const { mutate: createFriends, pending } = useMutationState(api.test.createFriends);
+  // const { mutate: createFriends, pending} = useMutationState(api.test.createFriends);
 
-  const handleCreateFriends = async () => {
-    try {
-      await createFriends({});
-    } catch (err) {
-      throw err;
-    }
+  // const handleCreateFriends = async () => {
+  //   try {
+  //     await createFriends({});
+  //   } catch (err) {
+  //     throw err;
+  //   }
 
-  }
+  // }
 
   return (
     <>

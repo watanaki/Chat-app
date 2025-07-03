@@ -22,7 +22,7 @@ const ConversationPage = () => {
   const [removeFriendDialogOpen, setRemoveFriendDialogOpen] = useState(false);
   const [deleteGroupDialogOpen, setdeleteGroupDialogOpen] = useState(false);
   const [leaveGroupDialogOpen, setleaveGroupDialogOpen] = useState(false);
-  const [callType, setCallType] = useState<"audio" | 'video' | null>(null);
+  // const [callType, setCallType] = useState<"audio" | 'video' | null>(null);
 
   return conversation === undefined ?
     <div className="w-full h-full flex items-center justify-center">
