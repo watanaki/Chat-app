@@ -16,7 +16,10 @@ type Props = {
 const GroupConversationItem = ({ id, name, lastMessageContent, lastMessageSender, unseenCount }: Props) => {
   return (
     <Link href={`/conversations/${id}`} className='w-full'>
-      <Card className='p-2 flex flex-row items-center justify-between'>
+      <Card className='p-2 flex flex-row items-center justify-between
+      transition-shadow duration-200
+      hover:shadow-hover-light
+      dark:hover:shadow-hover-dark'>
         <div className='flex flex-row items-center gap-4 truncate'>
           <Avatar>
             <AvatarFallback>

@@ -3,24 +3,31 @@
 import { Card } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { api } from '@/convex/_generated/api';
+import EmojiPicker, { Theme } from "emoji-picker-react";
 import { useConversation } from '@/hooks/useConversation';
 import { useMutationState } from '@/hooks/useMutationState';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ConvexError } from 'convex/values';
-// import React, { useRef } from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import TextareaAutoSize from "react-textarea-autosize";
 import { Button } from '@/components/ui/button';
 import { SendHorizonal } from 'lucide-react';
+import MessageActionsPopover from './MessageActionsPopover';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useTheme } from 'next-themes';
 
 const chatMessageSchema = z.object({
   content: z.string().min(1, { message: "发送内容不可为空" })
 });
 
 const ChatInput = () => {
-  // const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const emojiPickerRef = useRef<any>(null);
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState(0);
+  const { theme } = useTheme();
   const { conversationId } = useConversation();
   const { mutate: createMessage, pending } = useMutationState(api.message.create);
 
@@ -39,25 +46,73 @@ const ChatInput = () => {
         content: [values.content]
       });
       form.reset();
+      textareaRef.current?.focus();
     } catch (e) {
       toast.error(e instanceof ConvexError ? e.data : "Unexpected error occurred");
     }
 
   }
 
-  const handleInputChange = (event: any) => {
+  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     form.clearErrors();
     const { value, selectionStart } = event.target;
     if (selectionStart !== null) {
       form.setValue("content", value);
+      setCursorPosition(selectionStart);
     }
   }
 
+  const handleSelect = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const { selectionStart } = event.target;
+
+    if (selectionStart !== null) {
+      setCursorPosition(selectionStart);
+    }
+  }
+
+  const insertEmoji = (emoji: string) => {
+    const content = form.getValues("content");
+    const newText = [
+      content.substring(0, cursorPosition),
+      emoji,
+      content.substring(cursorPosition)
+    ];
+    form.setValue("content", newText.join(""));
+    setCursorPosition(cursorPosition + emoji.length);
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (emojiPickerRef.current &&
+        emojiPickerOpen &&
+        !emojiPickerRef.current.contains(event.target))
+        setEmojiPickerOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
   return (
     <Card className='w-full p-2 rounded-lg relative'>
+      <div className='absolute bottom-16' ref={emojiPickerRef}>
+        <EmojiPicker
+          open={emojiPickerOpen}
+          theme={theme as Theme}
+          onEmojiClick={(emojiDetails) => {
+            // textareaRef.current.c
+            insertEmoji(emojiDetails.emoji);
+            // setEmojiPickerOpen(false);
+          }} lazyLoadEmojis />
+
+      </div>
       <div className="flex gap-2 items-end w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className='flex gap-2 items-end w-full'>
+            <MessageActionsPopover setEmojiPickerOpen={setEmojiPickerOpen} />
             <FormField control={form.control} name="content" render={({ field }) => (
               <FormItem className='h-full w-full'>
                 <FormControl>
@@ -73,6 +128,8 @@ const ChatInput = () => {
                       }
                     }}
                     onChange={handleInputChange}
+                    onSelect={handleSelect}
+                    ref={textareaRef}
                   // onClick={handleInputChange}
                   />
                 </FormControl>
