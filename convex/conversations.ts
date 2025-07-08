@@ -2,6 +2,7 @@ import { ConvexError } from "convex/values";
 import { MutationCtx, query, QueryCtx } from "./_generated/server";
 import { getUserByClerkId } from "./_utils";
 import { Id } from "./_generated/dataModel";
+import { Brackets } from "lucide-react";
 
 export const get = query({
   args: {},
@@ -88,10 +89,13 @@ const getMessageContent = (type: string, content: string) => {
   switch (type) {
     case "text":
       return content;
+      break;
     case "image":
       return "[Image]";
+      break;
     case "file":
       return "[File]"
+      break;
     default:
       return "[No-text]";
   }

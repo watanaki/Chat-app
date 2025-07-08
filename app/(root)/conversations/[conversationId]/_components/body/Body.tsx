@@ -8,6 +8,7 @@ import React, { useEffect } from 'react'
 import Message from './Message'
 import { useMutationState } from '@/hooks/useMutationState'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import Image from 'next/image'
 
 type Props = {
   members: {
@@ -68,7 +69,6 @@ const Body = ({ members }: Props) => {
   }
 
   const getSeenMessage = (messageId: Id<"messages">) => {
-    // console.log(members);
     const seenUsers = members
       .filter(member => member.lastSeenMessageId === messageId)
       .map(user => user.username!.split(" ")[0]);
@@ -78,6 +78,7 @@ const Body = ({ members }: Props) => {
   }
 
   return (
+
     <div className='flex-1 w-full flex overflow-y-scroll flex-col-reverse gap-2 p-3 no-scrollbar'>
       {messages?.map(({ message, senderImage, senderName, isCurrentUser }, index) => {
         const lastByUser = messages[index - 1]?.message.senderId === message.senderId;
@@ -95,6 +96,7 @@ const Body = ({ members }: Props) => {
           lastByUser={lastByUser}
         />
       })}
+
     </div>
   )
 }

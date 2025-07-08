@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { hostname: 'img.clerk.com' },
-      { hostname: 'utfs.io' }
+      { hostname: '7jyxg67x5h.ufs.sh', protocol: 'https', pathname: '/f/*' },
     ]
   },
   async redirects() {

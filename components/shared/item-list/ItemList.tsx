@@ -23,7 +23,7 @@ const ItemList = ({ children, title, action: Action }: Props) => {
         <h1 className='text-2xl font-semibold tracking-tight'>{title}</h1>
         {Action ?? null}
       </div>
-      <div className='w-full h-[calc(100%-3.5rem)] flex flex-col items-center justify-start gap-2 overflow-scroll no-scrollbar'>
+      <div className='px-1 py-2 w-full h-[calc(100%-3.5rem)] flex flex-col items-center justify-start gap-2 overflow-scroll no-scrollbar'>
         {children}
       </div>
     </Card>

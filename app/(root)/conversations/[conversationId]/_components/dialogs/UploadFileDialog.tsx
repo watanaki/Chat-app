@@ -36,9 +36,9 @@ const UploadFileDialog = ({ open, toggle, type }: Props) => {
 
   const { conversationId } = useConversation();
   const { mutate: createMessage, pending } = useMutationState(api.message.create);
-
   const handleSubmit = async (values: z.infer<typeof uploadFileSchema>) => {
     try {
+      form.clearErrors();
       await createMessage({
         conversationId,
         type,
@@ -73,8 +73,14 @@ const UploadFileDialog = ({ open, toggle, type }: Props) => {
               return <FormItem>
                 <FormControl>
                   <div className="py-4">
-                    <Uploader type={type} onChange={urls => {
+                    <Uploader type={type} onChange={infos => {
+                      const urls = infos.map(({ url, name }) => {
+                        const nameBreak = name.split('.');
+                        const fileType = nameBreak[nameBreak.length - 1];
+                        return url + '.' + fileType;
+                      });
                       form.setValue("files", [...files, ...urls]);
+                      handleSubmit(form.getValues());
                     }} />
                   </div>
                 </FormControl>
@@ -82,7 +88,8 @@ const UploadFileDialog = ({ open, toggle, type }: Props) => {
               </FormItem>
             }} />
             <DialogFooter>
-              <Button disabled={!files.length || pending} type='submit'>Send</Button>
+              {/* <Button disabled={!files.length || pending} type='submit'>Send</Button> */}
+              {/* <Button type='submit'>Send</Button> */}
             </DialogFooter>
           </form>
         </Form>

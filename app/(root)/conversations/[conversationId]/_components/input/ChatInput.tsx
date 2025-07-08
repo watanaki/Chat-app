@@ -110,9 +110,9 @@ const ChatInput = () => {
 
       </div>
       <div className="flex gap-2 items-end w-full">
+        <MessageActionsPopover setEmojiPickerOpen={setEmojiPickerOpen} />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className='flex gap-2 items-end w-full'>
-            <MessageActionsPopover setEmojiPickerOpen={setEmojiPickerOpen} />
             <FormField control={form.control} name="content" render={({ field }) => (
               <FormItem className='h-full w-full'>
                 <FormControl>
