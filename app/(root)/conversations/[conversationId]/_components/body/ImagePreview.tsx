@@ -1,4 +1,4 @@
-import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import React from 'react'
@@ -39,12 +39,29 @@ const ImagePreview = ({ urls }: Props) => {
                     src={url}
                     alt='Failed to load image'
                     referrerPolicy='no-referrer'
-                    className='rounded-md object-cover'
+                    className='rounded-md object-contain w-full h-auto'
                     fill
-                  // unoptimized
+                    unoptimized
                   />
                 }
               </DialogTrigger>
+              <DialogContent>
+                <DialogTitle>{`${isVideo ? 'Video' : 'Image'} preview`}</DialogTitle>
+                <div className="w-full h-96 relative flex items-center justify-center">
+                  {isVideo ?
+                    <video controls poster={url} className='w-full'>
+                      <source src={`${url}#t=0.1`} type='video/mp4' />
+                    </video> :
+                    <Image
+                      src={url}
+                      alt='Failed to load image'
+                      referrerPolicy='no-referrer'
+                      className='object-contain w-full h-full'
+                      fill
+                      unoptimized
+                    />}
+                </div>
+              </DialogContent>
             </div>
           </Dialog>)
         })
